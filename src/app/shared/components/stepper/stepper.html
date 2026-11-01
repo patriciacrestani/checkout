@@ -1,0 +1,35 @@
+<ol class="m-0 flex w-full list-none p-0" [attr.aria-label]="label()">
+  @for (step of steps(); track step.id; let index = $index; let last = $last) {
+  <li class="flex min-w-0 flex-1 items-center last:flex-initial" [class.text-slate-500]="index !== currentIndex()"
+    [class.text-slate-900]="index === currentIndex()" [class.font-semibold]="index === currentIndex()"
+    [attr.aria-current]="index === currentIndex() ? 'step' : null">
+
+    <span class="flex min-w-0 items-center gap-1.5 sm:gap-2">
+      <!-- sm:size-8 sm:basis-8 sm:text-base  shrink-0 basis-6-->
+      <span class="flex size-5 items-center justify-center rounded-full border-0 text-sm font-semibold"
+        [class.bg-green-300]="index < currentIndex()" [class.bg-primary]="index === currentIndex()"
+        [class.bg-slate-200]="index > currentIndex()" [class.text-green-700]="index < currentIndex()"
+        [class.text-white]="index == currentIndex()" [class.text-slate-600]="index > currentIndex()" aria-hidden="true">
+
+        @if (index < currentIndex()) { <svg class="size-[70%]" viewBox="0 0 24 24" fill="none" focusable="false">
+          <path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+          </svg>
+          } @else {
+          {{ index + 1 }}
+          }
+      </span>
+
+      <span class="sr-only">Etapa {{ index + 1 }} de {{ steps().length
+        }}{{ index < currentIndex() ? ', concluída:' : ':' }}</span>
+          <span class="text-xs leading-[1.4] wrap-anywhere sm:text-sm">{{
+            step.label
+            }}</span>
+      </span>
+
+      @if (!last) {
+      <span class="mx-1.5 h-0.5 flex-[1_0_0.5rem] bg-slate-200 sm:mx-3.5" aria-hidden="true"></span>
+      }
+  </li>
+  }
+</ol>
