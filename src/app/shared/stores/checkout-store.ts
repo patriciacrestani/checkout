@@ -8,9 +8,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription } from 'rxjs';
 import { Pedido } from '../models/pedido';
-import { DetalhesCartao } from '../models/detalhes-cartao';
+import { DetalhesCartao, MeioPagamentoCartao } from '../models/detalhes-cartao';
 import { MeioPagamentoEnum } from '../enums/meio-pagamento-enum';
 import { PedidoService } from '../services/pedido/pedido-service';
+import { PagamentoService } from '../services/pagamento/pagamento-service';
 
 interface CheckoutState {
     pedido: Pedido | null;
@@ -23,6 +24,7 @@ interface CheckoutState {
 @Injectable()
 export class CheckoutStore {
     private readonly pedidoService = inject(PedidoService);
+    private readonly pagamentoService = inject(PagamentoService);
     private readonly destroyRef = inject(DestroyRef);
 
     private requisicao?: Subscription;
@@ -76,6 +78,42 @@ export class CheckoutStore {
                         carregando: false,
                         erro: null,
                     });
+                },
+                error: (error) => {
+                    this.atualizarMensagemErro(error.mensagem);
+                },
+            });
+    }
+
+    enviarDadosCartao(meioPagamento: MeioPagamentoCartao, dadosCartao: DetalhesCartao): void {
+        this.requisicao?.unsubscribe();
+
+        this.state.update((state) => ({
+            ...state,
+            meioPagamento: meioPagamento,
+            detalhesCartao: dadosCartao,
+            carregando: true,
+        }));
+
+        const pedidoId = this.pedido()?.id;
+
+        if (!pedidoId) {
+            this.atualizarMensagemErro('Pedido não encontrado');
+            return;
+        }
+
+        this.requisicao = this.pagamentoService.enviarPagamentoCartao(pedidoId, meioPagamento, dadosCartao)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (response) => {
+                    if (!response.sucesso) {
+                        this.atualizarMensagemErro(response.mensagem);
+                        return;
+                    }
+                    this.state.update((state) => ({
+                        ...state,
+                        carregando: false,
+                    }));
                 },
                 error: (error) => {
                     this.atualizarMensagemErro(error.mensagem);

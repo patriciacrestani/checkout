@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
   signal,
@@ -12,6 +13,7 @@ import { FormularioCartao } from '../../shared/components/formulario-cartao/form
 import { SeletorMeioPagamento } from '../../shared/components/seletor-meio-pagamento/seletor-meio-pagamento';
 import { CheckoutStore } from '../../shared/stores/checkout-store';
 import { MeioPagamentoEnum } from '../../shared/enums/meio-pagamento-enum';
+import { DetalhesCartao, MeioPagamentoCartao } from '../../shared/models/detalhes-cartao';
 
 @Component({
   imports: [
@@ -31,13 +33,34 @@ export class PagamentoPage {
   // protected loadingPixCode = signal<boolean>(false);
   // protected pixCode = signal<PixCode | null>(null);
 
+  processandoPagamento = signal<boolean>(false);
+
   meioPagamentoSelecionado = signal<MeioPagamentoEnum | null>(null);
   meioPagamentoEnum = MeioPagamentoEnum;
+
+  desabilitarProgressaoPagamento = computed<boolean>(() => {
+    const meioPagamento = this.meioPagamentoSelecionado();
+    return !meioPagamento;
+  });
 
   mudarMeioPagamento(novoMeioPagamento: MeioPagamentoEnum): void {
     this.meioPagamentoSelecionado.set(novoMeioPagamento);
   }
 
+  enviarDadosCartao(detalhesCartao: DetalhesCartao): void {
+    if (this.meioPagamentoSelecionado() === MeioPagamentoEnum.Pix) // TODO: adicionar tratamento de erro
+      return;
+    this.store.enviarDadosCartao(this.meioPagamentoSelecionado() as MeioPagamentoCartao, detalhesCartao);
+    this.continuarParaConfirmacao();
+  }
+
+  protected continuarParaConfirmacao(): void {
+    void this.router.navigate(['/checkout/confirmacao']);
+  }
+
+  protected voltarParaPedido(): void {
+    void this.router.navigate(['/checkout/pedido']);
+  }
 
   // observeSelectedMethod = effect(() => {
   //   const selectedMethod = this.selectedMethod();
@@ -82,12 +105,4 @@ export class PagamentoPage {
   //       complete: () => this.redirectToConfirmation()
   //     })
   // }
-
-  protected continuarParaConfirmacao(): void {
-    void this.router.navigate(['/checkout/confirmacao']);
-  }
-
-  protected voltarParaPedido(): void {
-    void this.router.navigate(['/checkout/pedido']);
-  }
 }

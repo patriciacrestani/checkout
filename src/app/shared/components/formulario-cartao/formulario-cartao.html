@@ -1,11 +1,11 @@
-<fieldset [disabled]="processandoPagamento()" class="flex flex-col space-y-5">
+<fieldset class="flex flex-col space-y-5">
     <legend class="text-xl font-semibold">{{ tituloMeioPagamento() }}</legend>
 
     <div>
         <label for="numeroCartao" class="block text-sm font-medium">Número do cartão</label>
 
         <input id="numeroCartao" type="text" inputmode="numeric" [formField]="formulario.numeroCartao"
-            (input)="atualizarNumeroCartao($event)"
+            (input)="atualizarNumeroCartao($event)" placeholder="0000 0000 0000 0000"
             class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
             [attr.aria-invalid]="formulario.numeroCartao().touched() && formulario.numeroCartao().invalid()"
             [attr.aria-describedby]="erro('numeroCartao') ? 'numeroCartao-erro' : null" />
@@ -23,6 +23,7 @@
         <input id="nomeCartao" type="text" [formField]="formulario.nomeCartao" (input)="atualizarNomeCartao($event)"
             class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
             [attr.aria-invalid]="formulario.nomeCartao().touched() && formulario.nomeCartao().invalid()"
+            placeholder="Nome completo como aparece no cartão"
             [attr.aria-describedby]="erro('nomeCartao') ? 'nomeCartao-erro' : null" />
 
         @if (erro('nomeCartao'); as mensagem) {
@@ -36,7 +37,7 @@
         <label for="validade" class="block text-sm font-medium">Validade</label>
 
         <input id="validade" type="text" inputmode="numeric" [formField]="formulario.validade"
-            (input)="atualizarValidade($event)"
+            (input)="atualizarValidade($event)" placeholder="MM/AA"
             class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
             [attr.aria-invalid]="formulario.validade().touched() && formulario.validade().invalid()"
             [attr.aria-describedby]="erro('validade') ? 'validade-erro' : null" />
@@ -53,7 +54,7 @@
 
         <input id="cvv" type="text" inputmode="numeric" [formField]="formulario.cvv" (input)="atualizarCvv($event)"
             class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-            [attr.aria-invalid]="formulario.cvv().touched() && formulario.cvv().invalid()"
+            [attr.aria-invalid]="formulario.cvv().touched() && formulario.cvv().invalid()" placeholder="000"
             [attr.aria-describedby]="erro('cvv') ? 'cvv-erro' : null" />
 
         @if (erro('cvv'); as mensagem) {
@@ -63,8 +64,8 @@
         }
     </div>
 
-    <button type="submit" [disabled]="processandoPagamento()"
-        class="rounded-lg bg-slate-900 px-5 py-3 font-medium text-white hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900">
-        {{ processandoPagamento() ? 'Processando pagamento…' : 'Concluir pagamento' }}
+    <button type="submit" (click)="concluirPagamento()"
+        class="w-52 self-end rounded-lg bg-primary-900 px-5 py-3 font-medium text-white hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900">
+        Concluir pagamento
     </button>
 </fieldset>

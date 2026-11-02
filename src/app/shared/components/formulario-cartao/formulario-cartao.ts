@@ -1,7 +1,7 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit, output, signal, untracked } from '@angular/core';
 import { DetalhesCartao, MeioPagamentoCartao } from '../../models/detalhes-cartao';
 import { MeioPagamentoEnum } from '../../enums/meio-pagamento-enum';
-import { form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
+import { disabled, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 
 @Component({
   imports: [FormField],
@@ -10,8 +10,9 @@ import { form, FormField, maxLength, minLength, pattern, required } from '@angul
 })
 export class FormularioCartao {
   meioPagamento = input.required<MeioPagamentoCartao>();
+  desabilitarFormulario = input.required<boolean>();
 
-  processandoPagamento = signal<boolean>(false);
+  enviarDadosCartao = output<DetalhesCartao>();
 
   detalhesCartao = signal<DetalhesCartao>({
     numeroCartao: '',
@@ -40,6 +41,10 @@ export class FormularioCartao {
     });
     pattern(schemaPath.cvv, /^[0-9]{3}$/, {
       message: 'O CVV deve conter exatamente 3 dígitos',
+    });
+
+    disabled(schemaPath, {
+      when: () => this.desabilitarFormulario(),
     });
   });
 
@@ -105,5 +110,11 @@ export class FormularioCartao {
     }
 
     return controle.errors()[0]?.message ?? null;
+  }
+
+  concluirPagamento(): void {
+    const dadosFormulario = this.detalhesCartao();
+    dadosFormulario.numeroCartao = dadosFormulario.numeroCartao.replace(/\s/g, '');
+    this.enviarDadosCartao.emit(dadosFormulario);
   }
 }

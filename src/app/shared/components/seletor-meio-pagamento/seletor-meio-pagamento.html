@@ -1,9 +1,9 @@
 <fieldset>
-    <legend class="px-2 text-lg font-semibold">
+    <legend class="text-lg font-semibold">
         Como você quer pagar?
     </legend>
 
-    <div class="grid gap-3 sm:grid-cols-3">
+    <div class="grid gap-3 sm:grid-cols-3 mt-2">
         @for (meioPagamento of listaMeiosPagamento(); track meioPagamento.id) {
         <label
             class="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] cursor-pointer items-center gap-3 rounded-lg border border-slate-300 p-4 has-checked:border-slate-900 has-checked:bg-slate-50 has-disabled:cursor-not-allowed has-disabled:opacity-60">
