@@ -1,0 +1,20 @@
+<div class="min-h-dvh bg-slate-50 text-slate-900">
+    <header class="border-b border-slate-200 bg-white">
+        <div class="mx-auto max-w-3xl px-6 py-5 flex justify-between items-end">
+            <div class="flex gap-1 items-center">
+                <img src="assets/logo-transparente.png" alt="Logo" width="32" height="32" />
+                <h1 class="text-lg text-neutral-900 font-semibold tracking-tight">nexo</h1>
+            </div>
+
+            <div class="flex gap-1 items-center">
+                <i class="fa-solid fa-lock fa-xs text-gray-500"></i>
+                <p class="text-xs text-gray-500 tracking-tight">Checkout seguro</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="mx-auto max-w-3xl px-6 pt-8 sm:pt-10">
+        <app-stepper [steps]="steps" [currentStep]="currentStep()" label="Etapas do checkout" />
+    </div>
+    <router-outlet />
+</div>

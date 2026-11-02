@@ -1,9 +1,12 @@
 import { Routes } from '@angular/router';
 import { StepperStep } from './shared/components/stepper/stepper-step';
+import { App } from './app';
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'checkout',
+        loadComponent: () =>
+            import('./shared/components/checkout-layout/checkout-layout').then((m) => m.CheckoutLayout),
         children: [
             {
                 path: 'pedido',
@@ -31,6 +34,6 @@ export const routes: Routes = [
 
         ],
     },
-    { path: '**', redirectTo: 'pedido' },
-];
+    { path: '**', redirectTo: 'checkout/pedido' }
+]
 
