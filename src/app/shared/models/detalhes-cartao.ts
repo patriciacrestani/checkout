@@ -1,11 +1,11 @@
-import { MetodoPagamentoEnum } from "../enums/metodo-pagamento.enum";
+import { MeioPagamentoEnum } from "../enums/meio-pagamento-enum";
 
-export type MetodoPagamentoCartao = MetodoPagamentoEnum.Credito | MetodoPagamentoEnum.Debito;
+export type MeioPagamentoCartao = MeioPagamentoEnum.Credito | MeioPagamentoEnum.Debito;
 
 export interface DetalhesCartao {
-    metodoPagamento: MetodoPagamentoCartao; // TODO: precisa?
-    numeroCartao: number;
+    // metodoPagamento: MeioPagamentoCartao;  TODO: precisa?
+    numeroCartao: string;
     nomeCartao: string;
     validade: string;
-    cvv: number;
+    cvv: string;
 }

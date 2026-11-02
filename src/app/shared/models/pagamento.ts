@@ -1,7 +1,7 @@
-import { MetodoPagamentoEnum } from "../enums/metodo-pagamento.enum";
+import { MeioPagamentoEnum } from "../enums/meio-pagamento.enum";
 import { DetalhesCartao } from "./detalhes-cartao";
 
-export type Pagamento = { pedidoId: string; metodoPagamento: MetodoPagamentoEnum; } & (PagamentoPix | PagamentoCartao);
+export type Pagamento = { pedidoId: string; metodoPagamento: MeioPagamentoEnum; } & (PagamentoPix | PagamentoCartao);
 
 export interface PagamentoPix {
     codigo: string; // TODO tá certo?

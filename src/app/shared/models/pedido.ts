@@ -1,6 +1,8 @@
+import { Produto } from "./produto";
+
 export interface Pedido {
     id: string;
-    produtoId: string;
+    produto: Produto;
     subtotal: number;
     taxas: number;
     valorTotal: number;
