@@ -1,11 +1,10 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CheckoutStore } from '../../shared/stores/checkout-store';
 import { SumarioPedido } from '../../shared/components/sumario-pedido/sumario-pedido';
 
 @Component({
-  imports: [CurrencyPipe, SumarioPedido],
+  imports: [SumarioPedido],
   selector: 'app-pedido-page',
   templateUrl: './pedido-page.html',
 })

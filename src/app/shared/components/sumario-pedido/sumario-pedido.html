@@ -9,6 +9,8 @@
     </span>
     <p class="mt-2 text-xl font-semibold">{{ pedido().produto.titulo }}</p>
     <p class="text-sm text-slate-500">Plano mensal - 1 usuário</p>
+
+    <!-- TODO: informação de plano mensal e quantidade de usuários não vêm do backend -->
   </div>
 
   @for (benefit of pedido().produto.caracteristicas; track benefit) {

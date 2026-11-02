@@ -1,4 +1,4 @@
-<main class="mx-auto max-w-3xl px-6 py-10 sm:py-16 space-y-6">
+<main class="mx-auto max-w-xl sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-7xl px-6 py-10 sm:py-16 space-y-6">
     <h2 class="text-3xl font-medium tracking-tight sm:text-4xl">
         Resumo do pedido
     </h2>
@@ -8,8 +8,8 @@
     @if(!pedido) {
     <!-- TODO: implementar erro -->
     } @else {
-    <div class="flex items-start gap-4">
-        <app-sumario-pedido [pedido]="pedido" />
+    <div class="flex gap-4 flex-col items-stretch md:flex-row md:items-start">
+        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedido" />
 
         <button type="button" (click)="continuarParaPagamento()"
             class="whitespace-nowrap rounded-lg bg-primary px-6 py-3 font-medium text-white hover:cursor-pointer hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 disabled:cursor-not-allowed disabled:opacity-50">
