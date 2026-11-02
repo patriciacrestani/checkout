@@ -1,0 +1,26 @@
+<fieldset>
+    <legend class="px-2 text-lg font-semibold">
+        Como você quer pagar?
+    </legend>
+
+    <div class="grid gap-3 sm:grid-cols-3">
+        @for (meioPagamento of listaMeiosPagamento(); track meioPagamento.id) {
+        <label
+            class="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] cursor-pointer items-center gap-3 rounded-lg border border-slate-300 p-4 has-checked:border-slate-900 has-checked:bg-slate-50 has-disabled:cursor-not-allowed has-disabled:opacity-60">
+
+            @if(meioPagamento.id === meioPagamentoEnum.Pix) {
+            <i class="fa-solid fa-table-cells-large rotate-45"></i>
+            } @else {
+            <i class="fa-regular fa-credit-card"></i>
+            }
+
+            <input type="radio" name="payment-method" [value]="meioPagamento.id"
+                [checked]="meioPagamentoSelecionado() === meioPagamento.id" [(ngModel)]="meioPagamentoSelecionado"
+                [id]="meioPagamento.id"
+                class="size-4 accent-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 justify-self-end" />
+
+            <span class="text-sm font-medium">{{ meioPagamento.descricao }}</span>
+        </label>
+        }
+    </div>
+</fieldset>

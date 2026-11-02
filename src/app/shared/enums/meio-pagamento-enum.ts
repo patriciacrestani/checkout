@@ -9,3 +9,9 @@ export const MeioPagamentoEnumDescricao: Record<MeioPagamentoEnum, string> = {
     [MeioPagamentoEnum.Debito]: 'Cartão de Débito',
     [MeioPagamentoEnum.Pix]: 'Pix'
 };
+
+export const meiosPagamento: { id: MeioPagamentoEnum; descricao: string }[] = [
+    { id: MeioPagamentoEnum.Credito, descricao: MeioPagamentoEnumDescricao[MeioPagamentoEnum.Credito] },
+    { id: MeioPagamentoEnum.Debito, descricao: MeioPagamentoEnumDescricao[MeioPagamentoEnum.Debito] },
+    { id: MeioPagamentoEnum.Pix, descricao: MeioPagamentoEnumDescricao[MeioPagamentoEnum.Pix] }
+];
