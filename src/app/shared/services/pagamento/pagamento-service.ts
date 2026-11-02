@@ -18,10 +18,10 @@ export class PagamentoService {
     }
 
     obterCodigoPix(pedidoId: string): Observable<RetornoApi<Pix>> {
-        return this.http.get<RetornoApi<Pix>>(`/api/Pagamento/Pix/${pedidoId}`);
+        return this.http.get<RetornoApi<Pix>>(`/api/Pagamento/Pix/${pedidoId}/Codigo`);
     }
 
     validarPagamentoPix(pedidoId: string): Observable<RetornoApi> {
-        return this.http.get<RetornoApi>(`/api/Pagamento/Pix/${pedidoId}`);
+        return this.http.get<RetornoApi>(`/api/Pagamento/Pix/${pedidoId}/ValidarPagamento`);
     }
 }

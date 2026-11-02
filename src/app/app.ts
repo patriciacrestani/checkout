@@ -6,12 +6,14 @@ import { StepperStep } from './shared/components/stepper/stepper-step';
 import { Stepper } from './shared/components/stepper/stepper';
 import { PedidoService } from './shared/services/pedido/pedido-service';
 import { CheckoutStore } from './shared/stores/checkout-store';
+import { PagamentoService } from './shared/services/pagamento/pagamento-service';
 
 @Component({
   imports: [Stepper, RouterOutlet],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
+  providers: [PagamentoService, PedidoService, CheckoutStore],
 })
 export class App implements OnInit {
   private readonly route = inject(ActivatedRoute);

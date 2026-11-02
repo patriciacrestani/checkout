@@ -1,6 +1,16 @@
+import { isDevMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from './app/app.config';
 import { App } from './app/app';
 
-bootstrapApplication(App, appConfig)
-  .catch((err) => console.error(err));
+async function main(): Promise<void> {
+  if (isDevMode()) {
+    const { worker } = await import('./mocks/browser');
+
+    await worker.start();
+  }
+
+  await bootstrapApplication(App, appConfig);
+}
+
+main().catch(err => console.error(err));

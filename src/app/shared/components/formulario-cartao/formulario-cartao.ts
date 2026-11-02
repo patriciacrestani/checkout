@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { DetalhesCartao, MeioPagamentoCartao } from '../../models/detalhes-cartao';
-import { MeioPagamentoEnum } from '../../enums/meio-pagamento.enum';
+import { MeioPagamentoEnum } from '../../enums/meio-pagamento-enum';
 import { form, FormField } from '@angular/forms/signals';
 
 @Component({
