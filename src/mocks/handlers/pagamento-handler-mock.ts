@@ -6,7 +6,7 @@ import { pedidoDataMock } from '../data/pedido-data-mock';
 import { Pix } from '../../app/shared/models/pix';
 import { pixDataMock } from '../data/pix-data-mock';
 
-const enviarPagamentoCartao = http.get<PathParams & { pedidoId: string }>(
+const enviarPagamentoCartao = http.post<PathParams & { pedidoId: string }>(
   '*/api/Pagamento/Pagar/:pedidoId/Cartao',
   ({ params }) => {
     const response: RetornoApi<Pedido> = {
