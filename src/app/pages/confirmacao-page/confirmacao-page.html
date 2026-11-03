@@ -1,1 +1,32 @@
-<p>confirmacao-page works!</p>
+<main class="mx-auto max-w-xl sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-7xl px-6 py-10 sm:py-16 space-y-6">
+    <app-status-operacao titulo="Pagamento confirmado!"
+        descricao="Sua assinatura está ativa e seu espaço já está pronto para você." estado="sucesso" />
+
+    <app-tag texto="Assinatura ativa" estado="sucesso" />
+
+    @let pedido = store.pedido();
+
+    @if(!pedido) {
+    @let erro = store.erro();
+    <app-message estado="erro" [texto]="erro ?? 'Ocorreu um erro ao carregar o pedido.'" />
+    } @else {
+    <div class="flex gap-4 flex-col items-stretch md:flex-row md:items-start">
+        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedido" />
+        <!-- TODO: sumario com dados de pagamento -->
+        <div class="w-full flex gap-4 items-stretch">
+            <button type="button"
+                class="whitespace-nowrap rounded-lg bg-primary px-6 py-3 font-medium text-white hover:cursor-pointer hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 disabled:cursor-not-allowed disabled:opacity-50">
+                <i class="fa-solid fa-arrow-right-long text-white pr-2"></i>
+                Acessar meu espaço
+            </button>
+
+            <button type="button"
+                class="mt-4 w-full self-end rounded-lg bg-white px-5 py-3 font-medium text-slate-800  hover:cursor-pointer hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 hover:[&>i]:text-primary-600 hover:text-slate-900 border border-slate-300">
+                <i class="fa-solid fa-receipt shrink-0 text-primary-400 fa-lg" aria-hidden="true"></i>
+                Ver recibo
+            </button>
+
+        </div>
+    </div>
+    }
+</main>

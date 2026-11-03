@@ -1,10 +1,9 @@
 import { Component, input, output } from '@angular/core';
 import { CodigoPix } from '../codigo-pix/codigo-pix';
-import { Carregamento } from '../carregamento/carregamento';
-import { Erro } from '../erro/erro';
+import { StatusOperacao } from '../status-operacao/status-operacao';
 
 @Component({
-  imports: [CodigoPix, Carregamento, Erro],
+  imports: [CodigoPix, StatusOperacao],
   selector: 'app-pagamento-pix',
   templateUrl: './pagamento-pix.html',
 })

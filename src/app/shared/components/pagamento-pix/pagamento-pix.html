@@ -1,6 +1,6 @@
 <div class="flex flex-col space-y-5">
     @if(carregando()) {
-    <app-carregamento titulo="Carregando código PIX..." />
+    <app-status-operacao titulo="Carregando código PIX..." estado="carregamento" />
     } @else if(codigoPix(); as codigoPix) {
     <h3 class="text-xl font-semibold">Pague com seu app do banco</h3>
 
@@ -27,6 +27,7 @@
     </button>
     } @else {
     @let descricaoErro = erro();
-    <app-erro [titulo]="'Não foi possível obter o código PIX.'" [descricao]="descricaoErro ?? ''" />
+    <app-status-operacao titulo="Não foi possível obter o código PIX." [descricao]="descricaoErro ?? ''"
+        estado="erro" />
     }
 </div>

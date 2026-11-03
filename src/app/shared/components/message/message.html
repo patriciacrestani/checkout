@@ -1,0 +1,21 @@
+@let estadoOperacao = estado();
+
+<div
+  class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-start gap-2 rounded-md border px-3 py-3 text-sm leading-5"
+  [class.border-green-200]="estadoOperacao === 'sucesso'"
+  [class.bg-green-50]="estadoOperacao === 'sucesso'"
+  [class.text-green-700]="estadoOperacao === 'sucesso'"
+  [class.border-red-200]="estadoOperacao === 'erro'"
+  [class.bg-red-50]="estadoOperacao === 'erro'"
+  [class.text-red-700]="estadoOperacao === 'erro'"
+>
+  <i
+    class="leading-5"
+    [class.fa-regular]="estadoOperacao === 'sucesso'"
+    [class.fa-circle-check]="estadoOperacao === 'sucesso'"
+    [class.fa-solid]="estadoOperacao === 'erro'"
+    [class.fa-circle-exclamation]="estadoOperacao === 'erro'"
+    aria-hidden="true"
+  ></i>
+  <span class="min-w-0 wrap-anywhere">{{ texto() }}</span>
+</div>

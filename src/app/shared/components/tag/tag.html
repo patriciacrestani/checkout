@@ -1,0 +1,9 @@
+@let estadoOperacao = estado();
+
+<span class="inline-flex min-w-0 items-center gap-1 rounded-md px-2 py-0.5 text-xs font-medium leading-4"
+  [class.bg-green-100]="estadoOperacao === 'sucesso'" [class.text-green-800]="estadoOperacao === 'sucesso'"
+  [class.bg-red-100]="estadoOperacao === 'erro'" [class.text-red-800]="estadoOperacao === 'erro'">
+  <i class="fa-solid shrink-0" [class.fa-check]="estadoOperacao === 'sucesso'"
+    [class.fa-xmark]="estadoOperacao === 'erro'" aria-hidden="true"></i>
+  <span class="wrap-anywhere">{{ texto() }}</span>
+</span>

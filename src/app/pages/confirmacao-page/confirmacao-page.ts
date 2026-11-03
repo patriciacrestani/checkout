@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CheckoutStore } from '../../shared/stores/checkout-store';
+import { Tag } from '../../shared/components/tag/tag';
+import { StatusOperacao } from '../../shared/components/status-operacao/status-operacao';
+import { SumarioPedido } from '../../shared/components/sumario-pedido/sumario-pedido';
+import { Message } from '../../shared/components/message/message';
 
 @Component({
-  imports: [],
+  imports: [StatusOperacao, Tag, SumarioPedido, Message],
   selector: 'app-confirmacao-page',
   templateUrl: './confirmacao-page.html',
 })
-export class ConfirmacaoPage { }
+export class ConfirmacaoPage {
+  readonly store = inject(CheckoutStore);
+}
