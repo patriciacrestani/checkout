@@ -1,5 +1,13 @@
 <fieldset class="flex flex-col space-y-5">
-    <legend class="text-xl font-semibold">{{ tituloMeioPagamento() }}</legend>
+    <div class="flex justify-between items-center">
+        <legend class="text-xl font-semibold">{{ tituloMeioPagamento() }}</legend>
+
+        @if(bandeiraCartao() == bandeiraCartaoEnum.Visa) {
+        <i class="fa-brands fa-cc-visa fa-xl text-primary"></i>
+        } @else if(bandeiraCartao() == bandeiraCartaoEnum.Mastercard) {
+        <i class="fa-brands fa-cc-mastercard fa-xl text-primary"></i>
+        }
+    </div>
 
     <div>
         <label for="numeroCartao" class="block text-sm font-medium">Número do cartão</label>
@@ -33,39 +41,53 @@
         }
     </div>
 
-    <div>
-        <label for="validade" class="block text-sm font-medium">Validade</label>
+    <div class="flex gap-4">
+        <div class="w-full">
+            <label for="validade" class="block text-sm font-medium">Validade</label>
 
-        <input id="validade" type="text" inputmode="numeric" [formField]="formulario.validade"
-            (input)="atualizarValidade($event)" placeholder="MM/AA"
-            class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-            [attr.aria-invalid]="formulario.validade().touched() && formulario.validade().invalid()"
-            [attr.aria-describedby]="erro('validade') ? 'validade-erro' : null" />
+            <input id="validade" type="text" inputmode="numeric" [formField]="formulario.validade"
+                (input)="atualizarValidade($event)" placeholder="MM/AA"
+                class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                [attr.aria-invalid]="formulario.validade().touched() && formulario.validade().invalid()"
+                [attr.aria-describedby]="erro('validade') ? 'validade-erro' : null" />
 
-        @if (erro('validade'); as mensagem) {
-        <p id="validade-erro" role="alert" class="mt-1 text-sm text-red-800">
-            {{ mensagem }}
-        </p>
-        }
+            @if (erro('validade'); as mensagem) {
+            <p id="validade-erro" role="alert" class="mt-1 text-sm text-red-800">
+                {{ mensagem }}
+            </p>
+            }
+        </div>
+
+        <div class="w-full">
+            <label for="cvv" class="block text-sm font-medium">CVV</label>
+
+            <input id="cvv" type="text" inputmode="numeric" [formField]="formulario.cvv" (input)="atualizarCvv($event)"
+                class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                [attr.aria-invalid]="formulario.cvv().touched() && formulario.cvv().invalid()" placeholder="000"
+                [attr.aria-describedby]="erro('cvv') ? 'cvv-erro' : null" />
+
+            @if (erro('cvv'); as mensagem) {
+            <p id="cvv-erro" role="alert" class="mt-1 text-sm text-red-800">
+                {{ mensagem }}
+            </p>
+            }
+        </div>
     </div>
 
-    <div>
-        <label for="cvv" class="block text-sm font-medium">CVV</label>
+    <p class="text-sm" [class.text-green-700]="formulario().valid()" [class.text-red-700]="formulario().invalid()">
+        <i class="leading-5" [class.fa-regular]="formulario().valid()" [class.fa-circle-check]="formulario().valid()"
+            [class.fa-solid]="formulario().invalid()" [class.fa-circle-exclamation]="formulario().invalid()"
+            aria-hidden="true"></i>
+        {{ formulario().valid() ? 'Dados do cartão preenchidos' : 'Preencha os dados do cartão' }}
+    </p>
 
-        <input id="cvv" type="text" inputmode="numeric" [formField]="formulario.cvv" (input)="atualizarCvv($event)"
-            class="mt-2 block w-full rounded-lg border border-slate-300 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-            [attr.aria-invalid]="formulario.cvv().touched() && formulario.cvv().invalid()" placeholder="000"
-            [attr.aria-describedby]="erro('cvv') ? 'cvv-erro' : null" />
-
-        @if (erro('cvv'); as mensagem) {
-        <p id="cvv-erro" role="alert" class="mt-1 text-sm text-red-800">
-            {{ mensagem }}
-        </p>
-        }
-    </div>
-
-    <button type="submit" (click)="concluirPagamento()"
-        class="w-52 self-end rounded-lg bg-primary-900 px-5 py-3 font-medium text-white hover:cursor-pointer hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900">
-        Concluir pagamento
+    <button type="submit" (click)="concluirPagamento()" [disabled]="formulario().invalid()"
+        class="w-full self-end rounded-lg bg-primary px-5 py-3 font-medium text-white hover:cursor-pointer hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 disabled:bg-primary-700 disabled:cursor-default">
+        <i class="fa-solid fa-lock pr-2 text-white"></i>
+        Pagar {{ valor() | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
     </button>
+
+    <p class="text-sm text-slate-600">
+        Ao continuar, você concorda com os termos de uso e política de privacidade.
+    </p>
 </fieldset>
