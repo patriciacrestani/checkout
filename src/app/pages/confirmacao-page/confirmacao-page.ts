@@ -8,6 +8,7 @@ import { DetalhesPagamentoPedido } from '../../shared/components/detalhes-pagame
 import { SessaoStore } from '../../shared/stores/sessao-store';
 import { Pedido } from '../../shared/models/pedido';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [StatusOperacao, Tag, SumarioPedido, Message, DetalhesPagamentoPedido, DatePipe],
@@ -17,6 +18,7 @@ import { DatePipe } from '@angular/common';
 export class ConfirmacaoPage {
   readonly store = inject(CheckoutStore);
   readonly sessao = inject(SessaoStore);
+  protected readonly router = inject(Router);
 
   pedido = computed<Pedido | null>(() => this.store.pedido());
 
@@ -41,7 +43,11 @@ export class ConfirmacaoPage {
     return data.toISOString();
   });
 
-  tentarNovamente(): void {
+  protected tentarNovamente(): void {
     this.store.tentarPagamentoNovamente();
+  }
+
+  protected voltarParaPagamento(): void {
+    void this.router.navigate(['/checkout/pagamento']);
   }
 }

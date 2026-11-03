@@ -6,7 +6,7 @@
     @let pedido = store.pedido();
 
     @if(!pedido) {
-    @let erro = store.erro();
+    @let erro = store.erroDescricao();
     <app-message estado="erro" [texto]="erro ?? 'Ocorreu um erro ao carregar o pedido.'" />
     } @else {
     <div class="flex gap-4 flex-col items-stretch md:flex-row md:items-start">

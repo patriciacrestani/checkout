@@ -10,7 +10,8 @@ import { StatusOperacao } from '../status-operacao/status-operacao';
 export class PagamentoPix {
   readonly codigoPix = input.required<string | null>();
   readonly carregando = input.required<boolean>();
-  readonly erro = input.required<string | null>();
+  readonly erro = input.required<boolean>();
+  readonly erroDescricao = input.required<string | null>();
 
   verificarPagamentoPix = output<void>();
 

@@ -12,7 +12,7 @@ import { DetalhesCartao } from '../../models/detalhes-cartao';
 export class DetalhesPagamentoPedido {
   readonly pedido = input.required<Pedido>();
   readonly meioPagamento = input.required<MeioPagamentoEnum>();
-  readonly detalhesCartao = input.required<DetalhesCartao>();
+  readonly detalhesCartao = input<DetalhesCartao | null>();
 
   detalhesPagamento = computed<string>(() => {
     const meioPagamento = this.meioPagamento();
@@ -22,6 +22,9 @@ export class DetalhesPagamentoPedido {
     const meioPagamentoDescricao = MeioPagamentoEnumDescricao[meioPagamento];
 
     const detalhesCartao = this.detalhesCartao();
-    return `${meioPagamentoDescricao} - **** ${detalhesCartao.numeroCartao.slice(12, 16)}`;
+    if (detalhesCartao)
+      return `${meioPagamentoDescricao} - **** ${detalhesCartao.numeroCartao.slice(12, 16)}`;
+
+    return meioPagamentoDescricao;
   });
 }

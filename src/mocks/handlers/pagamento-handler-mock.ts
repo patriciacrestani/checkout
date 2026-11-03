@@ -14,6 +14,11 @@ const enviarPagamentoCartao = http.get<PathParams & { pedidoId: string }>(
       dados: pedidoDataMock,
       mensagem: ''
     };
+
+    // const response: RetornoApi<Pix> = {
+    //   sucesso: false,
+    //   mensagem: 'Seu banco recusou esta transação. Confira os dados e o limite disponível ou use outro meio de pagamento.'
+    // };
     return HttpResponse.json(response, { status: 200 });
   }
 );

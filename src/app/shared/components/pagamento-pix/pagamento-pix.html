@@ -26,7 +26,7 @@
         Concluir pagamento
     </button>
     } @else {
-    @let descricaoErro = erro();
+    @let descricaoErro = erroDescricao();
     <app-status-operacao titulo="Não foi possível obter o código PIX." [descricao]="descricaoErro ?? ''"
         estado="erro" />
     }

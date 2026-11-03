@@ -24,7 +24,7 @@
 
         @if (meioPagamento === meioPagamentoEnum.Pix) {
         <app-pagamento-pix [codigoPix]="codigoPix()" [carregando]="carregando()" [erro]="erro()"
-          (verificarPagamentoPix)="verificarPagamentoPix()" />
+          [erroDescricao]="erroDescricao()" (verificarPagamentoPix)="verificarPagamentoPix()" />
         } @else {
         <app-formulario-cartao [meioPagamento]="meioPagamento!" [desabilitarFormulario]="processandoPagamento()"
           (enviarDadosCartao)="enviarDadosCartao($event)" [valor]="pedido.valorTotal" />
@@ -48,7 +48,7 @@
   </div>
   } @else {
 
-  @let erro = store.erro();
+  @let erro = store.erroDescricao();
   <app-message estado="erro" [texto]="erro ?? 'Ocorreu um erro ao carregar o pedido.'" />
   }
 

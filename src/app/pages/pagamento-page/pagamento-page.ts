@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  OnInit,
   signal,
   untracked,
 } from '@angular/core';
@@ -31,12 +32,13 @@ import { Message } from '../../shared/components/message/message';
   selector: 'app-pagamento-page',
   templateUrl: './pagamento-page.html',
 })
-export class PagamentoPage {
+export class PagamentoPage implements OnInit {
   readonly store = inject(CheckoutStore);
   protected readonly router = inject(Router);
 
   carregando = computed<boolean>(() => this.store.carregando());
-  erro = computed<string | null>(() => this.store.erro());
+  erro = computed<boolean>(() => this.store.erro());
+  erroDescricao = computed<string | null>(() => this.store.erroDescricao());
   codigoPix = computed(() => this.store.codigoPix());
 
   processandoPagamento = signal<boolean>(false);
@@ -48,6 +50,10 @@ export class PagamentoPage {
     const meioPagamento = this.meioPagamentoSelecionado();
     return !meioPagamento;
   });
+
+  ngOnInit(): void {
+    this.store.limparDadosPagamento();
+  }
 
   mudarMeioPagamento(novoMeioPagamento: MeioPagamentoEnum): void {
     this.meioPagamentoSelecionado.set(novoMeioPagamento);

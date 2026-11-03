@@ -19,7 +19,8 @@ interface CheckoutState {
     detalhesCartao: DetalhesCartao | null;
     codigoPix: string | null;
     carregando: boolean;
-    erro: string | null;
+    erro: boolean,
+    erroDescricao: string | null;
 }
 
 @Injectable()
@@ -36,7 +37,8 @@ export class CheckoutStore {
         detalhesCartao: null,
         codigoPix: null,
         carregando: false,
-        erro: null,
+        erro: false,
+        erroDescricao: null,
     });
 
     readonly pedido = computed(() => this.state().pedido);
@@ -45,12 +47,23 @@ export class CheckoutStore {
     readonly codigoPix = computed(() => this.state().codigoPix);
     readonly carregando = computed(() => this.state().carregando);
     readonly erro = computed(() => this.state().erro);
+    readonly erroDescricao = computed(() => this.state().erroDescricao);
 
     atualizarMensagemErro(mensagem: string | null): void {
         this.state.update((state) => ({
             ...state,
             carregando: false,
-            erro: mensagem,
+            erro: true,
+            erroDescricao: mensagem,
+        }));
+    }
+
+    limparDadosPagamento() {
+        this.state.update((state) => ({
+            ...state,
+            meioPagamento: null,
+            detalhesCartao: null,
+            codigoPix: null,
         }));
     }
 
@@ -63,7 +76,8 @@ export class CheckoutStore {
             detalhesCartao: null,
             codigoPix: null,
             carregando: true,
-            erro: null,
+            erro: false,
+            erroDescricao: null,
         });
 
         this.requisicao = this.pedidoService.obterPedido(id)
@@ -81,7 +95,8 @@ export class CheckoutStore {
                         detalhesCartao: null,
                         codigoPix: null,
                         carregando: false,
-                        erro: null,
+                        erro: false,
+                        erroDescricao: null
                     });
                 },
                 error: (error) => {
@@ -118,6 +133,7 @@ export class CheckoutStore {
                     this.state.update((state) => ({
                         ...state,
                         carregando: false,
+                        erro: false
                     }));
                 },
                 error: (error) => {
@@ -134,6 +150,7 @@ export class CheckoutStore {
 
         this.state.update((state) => ({
             ...state,
+            meioPagamento: MeioPagamentoEnum.Pix,
             carregando: true,
         }));
 
@@ -157,6 +174,7 @@ export class CheckoutStore {
                         ...state,
                         codigoPix: pix.codigo,
                         carregando: false,
+                        erro: false
                     }));
                 },
                 error: (error) => {
@@ -191,6 +209,7 @@ export class CheckoutStore {
                     this.state.update((state) => ({
                         ...state,
                         carregando: false,
+                        erro: false
                     }));
                 },
                 error: (error) => {
