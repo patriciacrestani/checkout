@@ -32,9 +32,20 @@
       }
     </section>
 
-    <app-sumario-pedido [pedido]="pedido" [exibirTitulo]="true">
-      <app-valores-pedido [pedido]="pedido"></app-valores-pedido>
-    </app-sumario-pedido>
+    <div>
+      <app-sumario-pedido [pedido]="pedido" [exibirTitulo]="true">
+        <app-valores-pedido [pedido]="pedido"></app-valores-pedido>
+      </app-sumario-pedido>
+
+      <div
+        class="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-2 rounded-md px-3 py-3 mt-2 text-sm leading-5 items-center">
+        <i class="fa-solid fa-shield fa-2xl text-primary"></i>
+        <div>
+          <p class="text-sm font-semibold">Seus dados estão protegidos</p>
+          <span class="text-xs">Pagamento criptografado. Não armazenamos os dados do seu cartão.</span>
+        </div>
+      </div>
+    </div>
   </div>
   } @else {
 
