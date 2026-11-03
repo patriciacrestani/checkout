@@ -1,0 +1,23 @@
+<div class="relative w-full min-w-0">
+  <button type="button"
+    class="flex min-h-8 w-full min-w-0 cursor-pointer items-center gap-3 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-left text-sm leading-5 text-slate-600 shadow-[0_1px_2px_rgb(15_23_42/5%)] hover:border-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary hover:[&>i]:text-primary-600"
+    aria-label="Copiar código PIX" [attr.aria-disabled]="copiando() ? 'true' : null" (click)="copiarCodigo()">
+    <span class="min-w-0 flex-1 truncate">{{ codigoPix() }}</span>
+    <i class="fa-regular fa-copy shrink-0 text-primary-400" aria-hidden="true"></i>
+  </button>
+
+  <button type="button" (click)="copiarCodigo()"
+    class="mt-4 w-full self-end rounded-lg bg-white px-5 py-3 font-medium text-slate-800  hover:cursor-pointer hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 hover:[&>i]:text-primary-600 hover:text-slate-900 border border-slate-300">
+    <i class="fa-regular fa-copy shrink-0 text-primary-400 fa-lg" aria-hidden="true"></i>
+    Copiar código PIX
+  </button>
+
+  <div class="pointer-events-none absolute bottom-[calc(100%+8px)] left-0 z-10 flex w-full justify-center" role="status"
+    aria-live="polite" aria-atomic="true">
+    @if (mensagem(); as texto) {
+    <span
+      class="relative max-w-full rounded-md bg-slate-900 px-2.5 py-1.5 text-center text-xs leading-[18px] wrap-anywhere text-white after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-[5px] after:border-transparent after:border-t-slate-900 after:content-['']">{{
+      texto }}</span>
+    }
+  </div>
+</div>

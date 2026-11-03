@@ -17,6 +17,7 @@ interface CheckoutState {
     pedido: Pedido | null;
     meioPagamento: MeioPagamentoEnum | null;
     detalhesCartao: DetalhesCartao | null;
+    codigoPix: string | null;
     carregando: boolean;
     erro: string | null;
 }
@@ -33,6 +34,7 @@ export class CheckoutStore {
         pedido: null,
         meioPagamento: null,
         detalhesCartao: null,
+        codigoPix: null,
         carregando: false,
         erro: null,
     });
@@ -40,6 +42,7 @@ export class CheckoutStore {
     readonly pedido = computed(() => this.state().pedido);
     readonly meioPagamento = computed(() => this.state().meioPagamento);
     readonly detalhesCartao = computed(() => this.state().detalhesCartao);
+    readonly codigoPix = computed(() => this.state().codigoPix);
     readonly carregando = computed(() => this.state().carregando);
     readonly erro = computed(() => this.state().erro);
 
@@ -58,6 +61,7 @@ export class CheckoutStore {
             pedido: null,
             meioPagamento: null,
             detalhesCartao: null,
+            codigoPix: null,
             carregando: true,
             erro: null,
         });
@@ -75,6 +79,7 @@ export class CheckoutStore {
                         pedido: pedido,
                         meioPagamento: null,
                         detalhesCartao: null,
+                        codigoPix: null,
                         carregando: false,
                         erro: null,
                     });
@@ -103,6 +108,79 @@ export class CheckoutStore {
         }
 
         this.requisicao = this.pagamentoService.enviarPagamentoCartao(pedidoId, meioPagamento, dadosCartao)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (response) => {
+                    if (!response.sucesso) {
+                        this.atualizarMensagemErro(response.mensagem);
+                        return;
+                    }
+                    this.state.update((state) => ({
+                        ...state,
+                        carregando: false,
+                    }));
+                },
+                error: (error) => {
+                    this.atualizarMensagemErro(error.mensagem);
+                },
+            });
+    }
+
+    gerarCodigoPix(): void {
+        if (this.codigoPix())
+            return;
+
+        this.requisicao?.unsubscribe();
+
+        this.state.update((state) => ({
+            ...state,
+            carregando: true,
+        }));
+
+        const pedidoId = this.pedido()?.id;
+
+        if (!pedidoId) {
+            this.atualizarMensagemErro('Pedido não encontrado');
+            return;
+        }
+
+        this.requisicao = this.pagamentoService.obterCodigoPix(pedidoId)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (response) => {
+                    const pix = response.dados;
+                    if (!response.sucesso || !pix) {
+                        this.atualizarMensagemErro(response.mensagem);
+                        return;
+                    }
+                    this.state.update((state) => ({
+                        ...state,
+                        codigoPix: pix.codigo,
+                        carregando: false,
+                    }));
+                },
+                error: (error) => {
+                    this.atualizarMensagemErro(error.mensagem);
+                },
+            });
+    }
+
+    validarPagamentoPix(): void {
+        this.requisicao?.unsubscribe();
+
+        this.state.update((state) => ({
+            ...state,
+            carregando: true,
+        }));
+
+        const pedidoId = this.pedido()?.id;
+
+        if (!pedidoId) {
+            this.atualizarMensagemErro('Pedido não encontrado');
+            return;
+        }
+
+        this.requisicao = this.pagamentoService.validarPagamentoPix(pedidoId)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (response) => {

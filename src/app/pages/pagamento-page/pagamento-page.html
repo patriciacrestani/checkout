@@ -18,7 +18,8 @@
       <div id="payment-method-content">
 
         @if (meioPagamento === meioPagamentoEnum.Pix) {
-        <!-- <app-pix-payment [pix]="pixCode()!" [order]="order!" (processPixPayment)="payPix()" /> -->
+        <app-pagamento-pix [codigoPix]="codigoPix()" [carregando]="carregando()" [erro]="erro()"
+          (verificarPagamentoPix)="verificarPagamentoPix()" />
         } @else {
         <app-formulario-cartao [meioPagamento]="meioPagamento!" [desabilitarFormulario]="processandoPagamento()"
           (enviarDadosCartao)="enviarDadosCartao($event)" />

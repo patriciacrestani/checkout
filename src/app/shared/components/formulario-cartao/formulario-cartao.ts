@@ -22,6 +22,7 @@ export class FormularioCartao {
   });
 
   formulario = form(this.detalhesCartao, (schemaPath) => {
+    // TODO: adicionar validação para número do cartão
     required(schemaPath.numeroCartao, { message: 'Número do cartão obrigatório' });
     required(schemaPath.nomeCartao, { message: 'Nome no cartão obrigatório' });
     required(schemaPath.validade, { message: 'Validade do cartão obrigatória' });

@@ -14,13 +14,15 @@ import { SeletorMeioPagamento } from '../../shared/components/seletor-meio-pagam
 import { CheckoutStore } from '../../shared/stores/checkout-store';
 import { MeioPagamentoEnum } from '../../shared/enums/meio-pagamento-enum';
 import { DetalhesCartao, MeioPagamentoCartao } from '../../shared/models/detalhes-cartao';
+import { PagamentoPix } from '../../shared/components/pagamento-pix/pagamento-pix';
 
 @Component({
   imports: [
     SumarioPedido,
     FormularioCartao,
     RouterLink,
-    SeletorMeioPagamento
+    SeletorMeioPagamento,
+    PagamentoPix
   ],
   selector: 'app-pagamento-page',
   templateUrl: './pagamento-page.html',
@@ -29,9 +31,9 @@ export class PagamentoPage {
   readonly store = inject(CheckoutStore);
   protected readonly router = inject(Router);
 
-  // protected order = signal<Order | null>(this.orderService.order());
-  // protected loadingPixCode = signal<boolean>(false);
-  // protected pixCode = signal<PixCode | null>(null);
+  carregando = computed<boolean>(() => this.store.carregando());
+  erro = computed<string | null>(() => this.store.erro());
+  codigoPix = computed(() => this.store.codigoPix());
 
   processandoPagamento = signal<boolean>(false);
 
@@ -45,12 +47,22 @@ export class PagamentoPage {
 
   mudarMeioPagamento(novoMeioPagamento: MeioPagamentoEnum): void {
     this.meioPagamentoSelecionado.set(novoMeioPagamento);
+    if (novoMeioPagamento === MeioPagamentoEnum.Pix) {
+      this.store.gerarCodigoPix();
+    }
   }
 
   enviarDadosCartao(detalhesCartao: DetalhesCartao): void {
     if (this.meioPagamentoSelecionado() === MeioPagamentoEnum.Pix) // TODO: adicionar tratamento de erro
       return;
     this.store.enviarDadosCartao(this.meioPagamentoSelecionado() as MeioPagamentoCartao, detalhesCartao);
+    this.continuarParaConfirmacao();
+  }
+
+  verificarPagamentoPix() {
+    if (this.meioPagamentoSelecionado() !== MeioPagamentoEnum.Pix) // TODO: adicionar tratamento de erro
+      return;
+    this.store.validarPagamentoPix();
     this.continuarParaConfirmacao();
   }
 
@@ -61,48 +73,4 @@ export class PagamentoPage {
   protected voltarParaPedido(): void {
     void this.router.navigate(['/checkout/pedido']);
   }
-
-  // observeSelectedMethod = effect(() => {
-  //   const selectedMethod = this.selectedMethod();
-  //   untracked(() => {
-  //     if (selectedMethod === 'pix') {
-  //       this.getPixCode();
-  //     }
-  //   });
-  // });
-
-  // protected selectMethod(method: PaymentMethod): void {
-  //   this.selectedMethod.set(method);
-  // }
-
-  // private getPixCode() {
-  //   this.loadingPixCode.set(true);
-  //   const order = this.order();
-  //   if (order)
-  //     this.paymentService.getPixCode(order.id).subscribe({
-  //       next: (response) => this.pixCode.set(response),
-  //       error: () => this.pixCode.set(null),
-  //       complete: () => this.loadingPixCode.set(false)
-  //     });
-  // }
-
-  // protected backToOrder(): void {
-  //   void this.router.navigate(['/checkout/pedido']);
-  // }
-
-  // payPix() {
-  //   const order = this.order();
-  //   if (order)
-  //     this.paymentService.verifyPixPayment(order.id).subscribe({
-  //       complete: () => this.redirectToConfirmation()
-  //     });
-  // }
-
-  // payCard(cardDetails: CardDetails) {
-  //   const order = this.order();
-  //   if (order)
-  //     this.paymentService.verifyCardPayment(order.id, cardDetails).subscribe({
-  //       complete: () => this.redirectToConfirmation()
-  //     })
-  // }
 }

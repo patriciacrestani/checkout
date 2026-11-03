@@ -1,4 +1,4 @@
-import { PathParams } from 'msw';
+import { delay, PathParams } from 'msw';
 import { http, HttpResponse } from 'msw/http';
 import { RetornoApi } from '../../app/shared/models/retorno-api';
 import { Pedido } from '../../app/shared/models/pedido';
@@ -20,12 +20,17 @@ const enviarPagamentoCartao = http.get<PathParams & { pedidoId: string }>(
 
 const obterCodigoPix = http.get<PathParams & { pedidoId: string }>(
   '*/api/Pagamento/Pix/:pedidoId/Codigo',
-  ({ params }) => {
+  async ({ params }) => {
+    // await delay(3000);
     const response: RetornoApi<Pix> = {
       sucesso: true,
       dados: pixDataMock,
       mensagem: ''
     };
+    // const response: RetornoApi<Pix> = {
+    //   sucesso: false,
+    //   mensagem: 'Erro ao gerar código Pix.'
+    // };
     return HttpResponse.json(response, { status: 200 });
   }
 );
