@@ -41,4 +41,7 @@ export class ConfirmacaoPage {
     return data.toISOString();
   });
 
+  tentarNovamente(): void {
+    this.store.tentarPagamentoNovamente();
+  }
 }

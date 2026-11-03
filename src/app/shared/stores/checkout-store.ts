@@ -198,4 +198,12 @@ export class CheckoutStore {
                 },
             });
     }
+
+    tentarPagamentoNovamente() {
+        if (this.meioPagamento() === MeioPagamentoEnum.Pix) {
+            this.validarPagamentoPix();
+            return;
+        }
+        this.enviarDadosCartao(this.meioPagamento() as MeioPagamentoCartao, this.detalhesCartao()!);
+    }
 }
