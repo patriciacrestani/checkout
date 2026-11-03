@@ -5,21 +5,26 @@
         <app-tag texto="Assinatura ativa" estado="sucesso" />
     </app-status-operacao>
 
-    @let pedido = store.pedido();
+    @let pedidoDetalhes = pedido();
 
-    @if(!pedido) {
+    @if(!pedidoDetalhes) {
     @let erro = store.erro();
     <app-message estado="erro" [texto]="erro ?? 'Ocorreu um erro ao carregar o pedido.'" />
     } @else {
     <div class="flex flex-col space-y-4">
-        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedido">
+        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedidoDetalhes">
             @let meioPagamento = store.meioPagamento();
             @let detalhesCartao = store.detalhesCartao();
             @if(meioPagamento && detalhesCartao) {
-            <app-detalhes-pagamento-pedido [pedido]="pedido" [meioPagamento]="meioPagamento"
+            <app-detalhes-pagamento-pedido [pedido]="pedidoDetalhes" [meioPagamento]="meioPagamento"
                 [detalhesCartao]="detalhesCartao"></app-detalhes-pagamento-pedido>
             }
         </app-sumario-pedido>
+
+        <p class="text-sm">
+            Enviamos o recibo para:
+            <span class="inline-block font-semibold">{{ sessao.emailExibicao() }}</span>
+        </p>
 
         <div class="w-full flex gap-4 items-stretch">
             <button type="button"
@@ -38,3 +43,5 @@
     </div>
     }
 </main>
+
+<p class="mt-3 text-sm text-slate-600">Sua próxima renovação será em: {{ periodoRenovacao() | date:'dd/mm/yyyy' }}</p>
