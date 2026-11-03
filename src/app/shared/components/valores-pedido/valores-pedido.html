@@ -1,0 +1,29 @@
+<div class="flex flex-col space-y-4">
+
+    @let pedidoDetalhes = pedido();
+
+    <div class="flex justify-between">
+        <span class="text-sm text-slate-500">Subtotal</span>
+        <span class="text-sm text-slate-500">{{ pedidoDetalhes.subtotal| currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR'
+            }}</span>
+    </div>
+
+    <div class="flex justify-between">
+        <span class="text-sm text-slate-500">Taxas</span>
+        <span class="text-sm text-slate-500">{{ pedidoDetalhes.taxas| currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR'
+            }}</span>
+    </div>
+
+    <span class="mx-1.5 block h-0.5 bg-slate-200 sm:mx-3.5" aria-hidden="true"></span>
+
+    <div class="flex justify-between items-end">
+        <span class="text-sm font-semibold text-gray-900">Total hoje</span>
+        <span class="font-semibold text-xl text-gray-900">{{ pedidoDetalhes.valorTotal| currency: 'BRL' : 'symbol' :
+            '1.2-2'
+            :
+            'pt-BR'
+            }}</span>
+    </div>
+
+    <p class="text-sm text-slate-500">Renovação mensal. Cancele quando quiser, sem tarifas adicionais.</p>
+</div>

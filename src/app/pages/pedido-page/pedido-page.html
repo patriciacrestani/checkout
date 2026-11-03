@@ -6,10 +6,13 @@
     @let pedido = store.pedido();
 
     @if(!pedido) {
-    <!-- TODO: implementar erro -->
+    @let erro = store.erro();
+    <app-message estado="erro" [texto]="erro ?? 'Ocorreu um erro ao carregar o pedido.'" />
     } @else {
     <div class="flex gap-4 flex-col items-stretch md:flex-row md:items-start">
-        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedido" />
+        <app-sumario-pedido class="min-w-0 md:flex-1" [pedido]="pedido">
+            <app-valores-pedido [pedido]="pedido"></app-valores-pedido>
+        </app-sumario-pedido>
 
         <button type="button" (click)="continuarParaPagamento()"
             class="whitespace-nowrap rounded-lg bg-primary px-6 py-3 font-medium text-white hover:cursor-pointer hover:bg-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-900 disabled:cursor-not-allowed disabled:opacity-50">

@@ -30,7 +30,9 @@
 
     @let pedido = store.pedido();
     @if(pedido) {
-    <app-sumario-pedido [pedido]="pedido" [exibirTitulo]="true" />
+    <app-sumario-pedido [pedido]="pedido" [exibirTitulo]="true">
+      <app-valores-pedido [pedido]="pedido"></app-valores-pedido>
+    </app-sumario-pedido>
     }
   </div>
 

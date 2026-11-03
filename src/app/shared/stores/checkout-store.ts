@@ -127,7 +127,7 @@ export class CheckoutStore {
     }
 
     gerarCodigoPix(): void {
-        if (this.codigoPix())
+        if (this.codigoPix() !== null)
             return;
 
         this.requisicao?.unsubscribe();

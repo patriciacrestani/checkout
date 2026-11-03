@@ -3,48 +3,24 @@
   <h3 class="font-semibold text-slate-900">Resumo do pedido</h3>
   }
 
+  @let pedidoDetalhes = pedido();
+
   <div class="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr] gap-x-4">
     <span class="bg-primary-200 row-span-2 rounded-xl size-15 p-1 grid place-items-center">
       <i class="fa-solid fa-table-cells-large text-5xl text-primary"></i>
     </span>
-    <p class="mt-2 text-xl font-semibold">{{ pedido().produto.titulo }}</p>
-    <p class="text-sm text-slate-500">Plano mensal - 1 usuário</p>
-
-    <!-- TODO: informação de plano mensal e quantidade de usuários não vêm do backend -->
+    <p class="mt-2 text-xl font-semibold">{{ pedidoDetalhes.produto.titulo }}</p>
+    <p class="text-sm text-slate-500">{{ tipoPlano() }} - {{ quantidadeUsuarios() }}</p>
   </div>
 
-  @for (benefit of pedido().produto.caracteristicas; track benefit) {
+  @for (benefit of pedidoDetalhes.produto.caracteristicas; track benefit) {
   <ul>
     <li class="text-sm text-slate-500"><i class="fa-solid fa-check text-primary"></i> {{ benefit }}</li>
   </ul>
   }
 
-  <!-- TODO: não estão aparecendo as linhas -->
-  <span class="mx-1.5 h-0.5 flex-[1_0_0.5rem] bg-slate-200 sm:mx-3.5" aria-hidden="true"></span>
+  <span class="mx-1.5 block h-0.5 bg-slate-200 sm:mx-3.5" aria-hidden="true"></span>
 
-  <div class="flex justify-between">
-    <span class="text-sm text-slate-500">Subtotal</span>
-    <span class="text-sm text-slate-500">{{ pedido().subtotal| currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</span>
-  </div>
+  <ng-content></ng-content>
 
-  <div class="flex justify-between">
-    <span class="text-sm text-slate-500">Taxas</span>
-    <span class="text-sm text-slate-500">{{ pedido().taxas| currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</span>
-  </div>
-
-  <!-- TODO: não estão aparecendo as linhas -->
-  <span class="mx-1.5 h-0.5 flex-[1_0_0.5rem] bg-slate-200 sm:mx-3.5" aria-hidden="true"></span>
-
-  <div class="flex justify-between items-end">
-    <span class="text-sm font-semibold text-gray-900">Total hoje</span>
-    <span class="font-semibold text-xl text-gray-900">{{ pedido().valorTotal| currency: 'BRL' : 'symbol' : '1.2-2' :
-      'pt-BR'
-      }}</span>
-  </div>
-
-  <p class="text-sm text-slate-500">Renovação mensal. Cancele quando quiser, sem tarifas adicionais.</p>
-
-  <!-- <p class="mt-6 text-2xl font-semibold" aria-label="Preço do produto">
-    {{ pedido().totalValue | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}
-  </p> -->
 </section>

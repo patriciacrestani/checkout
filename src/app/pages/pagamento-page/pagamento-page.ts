@@ -15,6 +15,7 @@ import { CheckoutStore } from '../../shared/stores/checkout-store';
 import { MeioPagamentoEnum } from '../../shared/enums/meio-pagamento-enum';
 import { DetalhesCartao, MeioPagamentoCartao } from '../../shared/models/detalhes-cartao';
 import { PagamentoPix } from '../../shared/components/pagamento-pix/pagamento-pix';
+import { ValoresPedido } from '../../shared/components/valores-pedido/valores-pedido';
 
 @Component({
   imports: [
@@ -22,7 +23,8 @@ import { PagamentoPix } from '../../shared/components/pagamento-pix/pagamento-pi
     FormularioCartao,
     RouterLink,
     SeletorMeioPagamento,
-    PagamentoPix
+    PagamentoPix,
+    ValoresPedido
   ],
   selector: 'app-pagamento-page',
   templateUrl: './pagamento-page.html',
