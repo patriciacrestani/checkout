@@ -55,14 +55,14 @@ export class PagamentoPage {
   }
 
   enviarDadosCartao(detalhesCartao: DetalhesCartao): void {
-    if (this.meioPagamentoSelecionado() === MeioPagamentoEnum.Pix) // TODO: adicionar tratamento de erro
+    if (this.meioPagamentoSelecionado() === MeioPagamentoEnum.Pix)
       return;
     this.store.enviarDadosCartao(this.meioPagamentoSelecionado() as MeioPagamentoCartao, detalhesCartao);
     this.continuarParaConfirmacao();
   }
 
   verificarPagamentoPix() {
-    if (this.meioPagamentoSelecionado() !== MeioPagamentoEnum.Pix) // TODO: adicionar tratamento de erro
+    if (this.meioPagamentoSelecionado() !== MeioPagamentoEnum.Pix)
       return;
     this.store.validarPagamentoPix();
     this.continuarParaConfirmacao();

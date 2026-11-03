@@ -1,10 +1,15 @@
 import { Routes } from '@angular/router';
 import { StepperStep } from './shared/components/stepper/stepper-step';
 import { App } from './app';
+import { confirmacaoGuard } from './shared/guards/confirmacao-guard';
+import { CheckoutStore } from './shared/stores/checkout-store';
+import { PedidoService } from './shared/services/pedido/pedido-service';
+import { PagamentoService } from './shared/services/pagamento/pagamento-service';
 
 export const routes: Routes = [
     {
         path: 'checkout',
+        providers: [CheckoutStore, PedidoService, PagamentoService],
         loadComponent: () =>
             import('./shared/components/checkout-layout/checkout-layout').then((m) => m.CheckoutLayout),
         children: [
@@ -23,10 +28,10 @@ export const routes: Routes = [
             {
                 path: 'confirmacao',
                 title: 'Confirmação | Checkout',
+                canActivate: [confirmacaoGuard],
                 data: {
                     checkoutStep: { id: 'confirmation', label: 'Confirmação', order: 3 } satisfies StepperStep,
                 },
-                // TODO: canActivate: [confirmationGuard],
                 loadComponent: () =>
                     import('./pages/confirmacao-page/confirmacao-page').then((m) => m.ConfirmacaoPage),
             },

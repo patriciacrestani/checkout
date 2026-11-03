@@ -14,13 +14,14 @@ export class DetalhesPagamentoPedido {
   readonly meioPagamento = input.required<MeioPagamentoEnum>();
   readonly detalhesCartao = input.required<DetalhesCartao>();
 
-  meioPagamentoDescricao = computed<string>(() => {
+  detalhesPagamento = computed<string>(() => {
     const meioPagamento = this.meioPagamento();
-    return MeioPagamentoEnumDescricao[meioPagamento];
-  });
+    if (meioPagamento === MeioPagamentoEnum.Pix) {
+      return 'PIX';
+    }
+    const meioPagamentoDescricao = MeioPagamentoEnumDescricao[meioPagamento];
 
-  numeroCartao = computed<string>(() => {
     const detalhesCartao = this.detalhesCartao();
-    return `**** ${detalhesCartao.numeroCartao.slice(12, 16)}`
+    return `${meioPagamentoDescricao} - **** ${detalhesCartao.numeroCartao.slice(12, 16)}`;
   });
 }
